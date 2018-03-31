@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pynacl.amazonmock.databinding.FragmentViewProductBinding;
-import com.pynacl.amazonmock.util.Products;
+import com.pynacl.amazonmock.models.Product;
 
 public class ViewProductFragment extends Fragment {
 
@@ -17,15 +17,23 @@ public class ViewProductFragment extends Fragment {
 
     // Data binding
     FragmentViewProductBinding mBinding;
-    
-    @Nullable
+
+	private Product mProduct;
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle bundle = this.getArguments();
+		if (bundle != null) {
+			mProduct = bundle.getParcelable("intent_product");
+		}
+	}
+
+	@Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentViewProductBinding.inflate(inflater);
-        
-        Products products = new Products();
-        mBinding.setProduct(products.PRODUCTS[0]);
-    
+        mBinding.setProduct(mProduct);
         mBinding.setQty(1);
 
         return mBinding.getRoot();
